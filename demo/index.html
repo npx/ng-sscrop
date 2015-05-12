@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Cropping with Canvas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="css/yeti.bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <script src="js/angular.min.js"></script>
+  <script src="js/sscrop.min.js"></script>
+  <script src="js/app.js"></script>
+</head>
+<body ng-app="app" ng-controller="cropper">
+  <div class="content">
+    <div class="clearfix">
+
+      <!-- Controls -->
+      <div class="pull-left push-right">
+        <h3><small>1</small> Load Image</h3>
+        <span class="btn btn-default btn-file">
+          Browse <input class="form-control" id="srcFile" type="file" custom-on-change="fileChanged">
+        </span>
+
+        <h3><small>2</small> Find the crop</h3>
+        <input type="range" min="10" step="10" value="100" max="100" ng-model="result.zoom" id="zoomZoom" ng-disabled="zdisabled" />
+        <sscrop class="bordered" src="image" result="result" downscale="25" w="{{settings.width}}" h="700" on-load="enableZoom(asdf)"></sscrop>
+
+        <h3><small>3</small> Crop Information</h3>
+        <dl>
+          <dt>Zoom</dt>
+          <dd>{{result.zoom}}</dd>
+          <dt>Offset</dt>
+          <dd>({{result.pos.x}}/{{result.pos.y}})</dd>
+        </dl>
+      </div>
+
+      <!-- Crop Preview -->
+      <div class="pull-left">
+        <h3><small>4</small> Preview <small>(output: {{settings.width}} x {{settings.height}})</small></h3>
+        <div class="view bordered">
+          <img id="thecrop" width="500" height="350" ng-src="{{result.crop}}" alt="">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

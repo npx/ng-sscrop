@@ -1,0 +1,56 @@
+.btn {
+  padding: 8px 12px;
+}
+
+.view {
+  overflow: hidden;
+  margin-bottom: 1em;
+}
+
+.fit {
+  width: 500px;
+  height: 350px;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.push-right {
+  margin-right: 3em;
+}
+
+.content {
+  max-width: 830px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+input[type=range] {
+    margin-bottom: 0.5em;
+}
+
+.bordered {
+  border: 2px solid whitesmoke;
+}
