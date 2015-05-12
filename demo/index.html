@@ -24,7 +24,7 @@
 
         <h3><small>2</small> Find the crop</h3>
         <input type="range" min="10" step="10" value="100" max="100" ng-model="result.zoom" id="zoomZoom" ng-disabled="zdisabled" />
-        <sscrop class="bordered" src="image" result="result" downscale="25" w="{{settings.width}}" h="700" on-load="enableZoom(asdf)"></sscrop>
+        <sscrop class="bordered" src="image" result="result" downscale="25" w="{{settings.width}}" h="700" on-load="enableZoom()"></sscrop>
 
         <h3><small>3</small> Crop Information</h3>
         <dl>
