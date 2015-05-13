@@ -40,6 +40,7 @@ module.directive('sscrop', function() {
       result: '=',
       w: '@',
       h: '@',
+      crop: '=?',
       downscale: '@?', // percentage of how much to downscale the preview
       onLoad: '&?'
     },
@@ -47,7 +48,12 @@ module.directive('sscrop', function() {
     // templateUrl: 'src/sscrop/sscrop.html',
     link: function(scope, element, attrs) {
       // factor by which the preview / cropping interface is scaled down
-      var down = scope.downscale / 100 ? scope.downscale / 100 : 1;
+      var down = 1, dtmp = scope.downscale / 100;
+      if (('downscale' in attrs) && (dtmp))
+        down = dtmp;
+
+      // target for the cropping given?
+      var cropOutput = 'crop' in attrs;
 
       // init result
       scope.result.zoom = 100;
@@ -85,7 +91,7 @@ module.directive('sscrop', function() {
         });
 
         // call callback as image onload will be overwritten
-        if (scope.onLoad) scope.onLoad();
+        if ('onLoad' in attrs) scope.onLoad();
       };
 
       // draw, move and crop the image
@@ -129,7 +135,7 @@ module.directive('sscrop', function() {
         }
       }
       function crop() {
-        if (scope.src.width > 0) {
+        if ((scope.src.width > 0) && (cropOutput)) {
           var m_canvas = offscreen;
           var ctx = m_canvas.getContext('2d');
           var zf = scope.result.zoom / 100;
@@ -144,7 +150,7 @@ module.directive('sscrop', function() {
             scope.src.height * zf
           );
           var bstr = m_canvas.toDataURL("image/jpeg");
-          scope.result.crop = bstr;
+          scope.crop = bstr;
         }
       }
 

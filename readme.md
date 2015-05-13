@@ -22,7 +22,7 @@ offers of making a single retina ready crop.
 
   and set up the directive:
 
-    <sscrop src="image" result="result" w="1000" h="700" downscale="25" on-load="callback()"></sscrop>
+    <sscrop src="image" result="result" w="1000" h="700" crop="target" downscale="25" on-load="callback()"></sscrop>
 
   * **src**  
     an image source
@@ -32,6 +32,9 @@ offers of making a single retina ready crop.
     desired target width of the crop
   * **h**  
     desired target height of the crop
+  * **crop** *(optional)*  
+    the target to store the cropped data uri in  
+    *(this does not work if the canvas is tainted)*
   * **downscale** *(optional)*  
     percentage to downscale the crop window based on the desired
     size of the crop (25 = 25%)  
