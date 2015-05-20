@@ -49,8 +49,11 @@ module.directive('sscrop', function() {
     link: function(scope, element, attrs) {
       // factor by which the preview / cropping interface is scaled down
       var down = 1, dtmp = scope.downscale / 100;
-      if (('downscale' in attrs) && (dtmp))
+      var up = 1, utmp = 100 / scope.downscale;
+      if (('downscale' in attrs) && (dtmp)) {
         down = dtmp;
+        up = utmp;
+      }
 
       // target for the cropping given?
       var cropOutput = 'crop' in attrs;
@@ -58,7 +61,7 @@ module.directive('sscrop', function() {
       // init result
       scope.result.zoom = 100;
       scope.result.pos = { x:0, y:0 };
-      scope.result.crop = "";
+      scope.result.size = { w: scope.w, h: scope.h };
 
       // get canvas and set attributes
       var canvas = element[0];
@@ -77,6 +80,8 @@ module.directive('sscrop', function() {
       var offscreen = document.createElement('canvas');
       offscreen.width = scope.w;
       offscreen.height = scope.h;
+      // intrinsic position
+      var ipos = { x: 0, y: 0 };
 
       // get things rolling when image is loaded
       var minzoom = 10;
@@ -85,8 +90,11 @@ module.directive('sscrop', function() {
         minzoom = Math.min(Math.ceil(Math.max(scope.w/this.width, scope.h/this.height)*10)*10, 100);
         scope.$apply(function(){
           scope.result.zoom = minzoom;
+          // reset pos
           scope.result.pos.x = 0;
           scope.result.pos.y = 0;
+          ipos.x = 0;
+          ipos.y = 0;
           draw();
         });
 
@@ -104,8 +112,8 @@ module.directive('sscrop', function() {
           var zf = scope.result.zoom / 100;
           context.drawImage(
             scope.src,
-            scope.result.pos.x,
-            scope.result.pos.y,
+            ipos.x,
+            ipos.y,
             (scope.src.width * down) * zf,
             (scope.src.height * down) * zf
           );
@@ -116,19 +124,22 @@ module.directive('sscrop', function() {
           var zf = scope.result.zoom / 100;
 
           // make sure the image stays in the preview/selection
-          var nx = scope.result.pos.x + dx;
+          var nx = ipos.x + dx;
           nx = Math.min(nx, 0);
           nx = Math.max(nx, cWidth - (scope.src.width * down) * zf);
           nx = Math.ceil(nx);
 
-          var ny = scope.result.pos.y + dy;
+          var ny = ipos.y + dy;
           ny = Math.min(ny, 0);
           ny = Math.max(ny, cHeight - (scope.src.height * down) * zf);
           ny = Math.ceil(ny);
 
           // set new position
-          scope.result.pos.x = nx;
-          scope.result.pos.y = ny;
+          ipos.x = nx;
+          ipos.y = ny;
+          // -1 because a crop doesnt start negative
+          scope.result.pos.x = ipos.x * up * -1;
+          scope.result.pos.y = ipos.y * up * -1;
 
           // redraw
           draw();
@@ -141,11 +152,10 @@ module.directive('sscrop', function() {
           var zf = scope.result.zoom / 100;
 
           // scale the coordinates up to original size
-          var up = 1 / down;
           ctx.drawImage(
             scope.src,
-            scope.result.pos.x * up,
-            scope.result.pos.y * up,
+            ipos.x * up,
+            ipos.y * up,
             scope.src.width * zf,
             scope.src.height * zf
           );
@@ -163,6 +173,8 @@ module.directive('sscrop', function() {
           // reset position on zoom
           scope.result.pos.x = 0;
           scope.result.pos.y = 0;
+          ipos.x = 0;
+          ipos.y = 0;
           draw();
 
           // recrop on zoom change
