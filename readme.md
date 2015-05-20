@@ -42,6 +42,30 @@ offers of making a single retina ready crop.
   * **on-load** *(optional)*  
     callback to replace the image `onload()`
 
+## How do I get the crop data?
+While dragging the preview, the given `result` object will be updated as
+follows:
+
+    {"zoom":"40","pos":{"x":280,"y":176},"size":{"w":"1000","h":"700"}}
+
+This gives you all the information you need to perform a crop.
+
+Taken from the example (*done on a picture with 5600x3000px*):
+
+* downscale the image to 40%
+* crop from (280,176) to (1000+280, 700+176)
+* resulting in a picture with 1000x700px
+
+## How do I get a preview of the crop?
+On releasing the dragging of the preview, the given `crop` attribute is updated
+resulting in a base64 encode of your image. You can load that in `ng-src` if
+you so wish.
+
+*Note: Do not use this data and send it to your server, as this is a really
+low quality downscaling done on a canvas. Use the crop data to perform the
+crop in a more elaborate way.*
+
+
 # Demo
 I provided a demo in the demo folder. Please take a look!
 
@@ -51,3 +75,4 @@ I provided a demo in the demo folder. Please take a look!
 * add old browser support
 * add tests
 * add to bower
+* host demo on github pages
