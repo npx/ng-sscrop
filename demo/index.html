@@ -24,14 +24,16 @@
 
         <h3><small>2</small> Find the crop</h3>
         <input type="range" min="10" step="10" value="100" max="100" ng-model="result.zoom" id="zoomZoom" ng-disabled="zdisabled" />
-        <sscrop class="bordered" src="image" result="result" crop="result.crop" downscale="25" w="{{settings.width}}" h="700" on-load="enableZoom()"></sscrop>
+        <sscrop class="bordered" src="image" result="result" crop="result.crop" downscale="25" w="{{settings.width}}" h="{{settings.height}}" on-load="enableZoom()"></sscrop>
 
         <h3><small>3</small> Crop Information</h3>
         <dl>
           <dt>Zoom</dt>
-          <dd>{{result.zoom}}</dd>
+          <dd class="text-right">{{result.zoom}}%</dd>
           <dt>Offset</dt>
-          <dd>({{result.pos.x}}/{{result.pos.y}})</dd>
+          <dd class="text-right">({{result.pos.x}}, {{result.pos.y}})</dd>
+          <dt>Target size</dt>
+          <dd class="text-right">{{result.size.w}}x{{result.size.h}}px</dd>
         </dl>
       </div>
 
