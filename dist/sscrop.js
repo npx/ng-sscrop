@@ -170,11 +170,8 @@ module.directive('sscrop', function() {
         if ((nv < minzoom) || (nv > 100)) {
           scope.result.zoom = Math.max(Math.min(minzoom, 100), minzoom);
         } else {
-          // reset position on zoom
-          scope.result.pos.x = 0;
-          scope.result.pos.y = 0;
-          ipos.x = 0;
-          ipos.y = 0;
+          // on zoom change enforce boundary calculation
+          moveImage(0, 0);
           draw();
 
           // recrop on zoom change
