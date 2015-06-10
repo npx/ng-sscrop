@@ -16,8 +16,9 @@ app.controller('cropper', function ($scope) {
   $scope.result = { };
 
   $scope.image = new Image();
-  $scope.fileChanged = function(x) {
-    $scope.image.src = URL.createObjectURL(x.srcElement.files[0]);
+  $scope.fileChanged = function(event) {
+    var target = event.target || event.srcElement;
+    $scope.image.src = URL.createObjectURL(target.files[0]);
   };
 
 });
